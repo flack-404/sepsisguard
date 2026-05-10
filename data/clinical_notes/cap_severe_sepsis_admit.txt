@@ -1,0 +1,21 @@
+ED ADMIT NOTE — 67-year-old female
+
+CC: Cough, fever, dyspnea x 2 days.
+
+HPI: Patient presents to the ED with 2-day history of productive cough, subjective fever, and progressive dyspnea on exertion. No recent travel. No known sick contacts. Vaccination history: pneumococcal vaccine 4 years ago.
+
+VITALS on arrival: HR 118, BP 92/56, RR 28, Temp 39.1°C, SpO2 91% on room air.
+
+EXAM: Patient appears unwell, increased work of breathing, accessory muscle use. Crackles auscultated over right lower lung field. Cap refill 3 seconds.
+
+LABS:
+- WBC 18.4 K/uL with 15% bands
+- Lactate 3.2 mmol/L (elevated)
+- Creatinine 1.4 mg/dL (baseline 0.9)
+- Platelets 142 K/uL
+
+IMAGING: CXR demonstrates right lower lobe consolidation, consistent with community-acquired pneumonia.
+
+ASSESSMENT: Community-acquired pneumonia with concern for severe sepsis. Patient meets SIRS criteria (HR > 90, RR > 20, Temp > 38°C, WBC > 12K with bandemia). Lactate elevation and acute creatinine bump support organ dysfunction. Hypotensive.
+
+PLAN: Initiate sepsis bundle. Draw blood cultures, then empiric broad-spectrum antibiotics (anti-pseudomonal + MRSA coverage). 30 mL/kg crystalloid bolus. Repeat lactate in 4 hours. Admit ICU.

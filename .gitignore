@@ -31,6 +31,7 @@ logs/*
 .vscode/
 .idea/
 .claude/
+.code-review-graph/
 *.swp
 .DS_Store
 Thumbs.db

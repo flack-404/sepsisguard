@@ -1,0 +1,181 @@
+{
+  "scenario_id": "cap_severe_sepsis",
+  "title": "Community-acquired pneumonia → severe sepsis",
+  "synthetic_data_disclaimer": "SYNTHETIC DATA. No real patient information.",
+  "anchor_time": "2026-05-10T14:32:00Z",
+  "clinical_note_file": "cap_severe_sepsis_admit.txt",
+  "prompt": "Run sepsis bundle execution for this patient — recent vitals show concerning trends and the labs just resulted.",
+  "expected_classification": "severe_sepsis",
+  "expected_infection_source": "pneumonia",
+  "patient_id": "cap-001",
+  "weight_kg": 68,
+  "patient_synthetic_record": {
+    "Patient": {
+      "resourceType": "Patient",
+      "id": "cap-001",
+      "gender": "female",
+      "birthDate": "1959-03-12"
+    },
+    "Encounter": [
+      {
+        "resourceType": "Encounter",
+        "id": "enc-cap-001",
+        "status": "in-progress",
+        "class": {"system": "http://terminology.hl7.org/CodeSystem/v3-ActCode", "code": "EMER"},
+        "subject": {"reference": "Patient/cap-001"},
+        "period": {"start": "2026-05-10T13:45:00Z"}
+      }
+    ],
+    "Observation": [
+      {
+        "resourceType": "Observation", "id": "vital-hr-1", "status": "final",
+        "category": [{"coding": [{"code": "vital-signs"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "8867-4", "display": "Heart rate"}]},
+        "subject": {"reference": "Patient/cap-001"},
+        "effectiveDateTime": "2026-05-10T14:30:00Z",
+        "valueQuantity": {"value": 118, "unit": "/min"}
+      },
+      {
+        "resourceType": "Observation", "id": "vital-sbp-1", "status": "final",
+        "category": [{"coding": [{"code": "vital-signs"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "8480-6", "display": "Systolic BP"}]},
+        "subject": {"reference": "Patient/cap-001"},
+        "effectiveDateTime": "2026-05-10T14:30:00Z",
+        "valueQuantity": {"value": 92, "unit": "mm[Hg]"}
+      },
+      {
+        "resourceType": "Observation", "id": "vital-dbp-1", "status": "final",
+        "category": [{"coding": [{"code": "vital-signs"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "8462-4", "display": "Diastolic BP"}]},
+        "subject": {"reference": "Patient/cap-001"},
+        "effectiveDateTime": "2026-05-10T14:30:00Z",
+        "valueQuantity": {"value": 56, "unit": "mm[Hg]"}
+      },
+      {
+        "resourceType": "Observation", "id": "vital-rr-1", "status": "final",
+        "category": [{"coding": [{"code": "vital-signs"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "9279-1", "display": "Respiratory rate"}]},
+        "subject": {"reference": "Patient/cap-001"},
+        "effectiveDateTime": "2026-05-10T14:30:00Z",
+        "valueQuantity": {"value": 28, "unit": "/min"}
+      },
+      {
+        "resourceType": "Observation", "id": "vital-temp-1", "status": "final",
+        "category": [{"coding": [{"code": "vital-signs"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "8310-5", "display": "Body temperature"}]},
+        "subject": {"reference": "Patient/cap-001"},
+        "effectiveDateTime": "2026-05-10T14:30:00Z",
+        "valueQuantity": {"value": 39.1, "unit": "Cel"}
+      },
+      {
+        "resourceType": "Observation", "id": "lab-wbc-1", "status": "final",
+        "category": [{"coding": [{"code": "laboratory"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "6690-2", "display": "WBC"}]},
+        "subject": {"reference": "Patient/cap-001"},
+        "effectiveDateTime": "2026-05-10T14:25:00Z",
+        "valueQuantity": {"value": 18.4, "unit": "10*3/uL"}
+      },
+      {
+        "resourceType": "Observation", "id": "lab-bands-1", "status": "final",
+        "category": [{"coding": [{"code": "laboratory"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "26511-6", "display": "Bands"}]},
+        "subject": {"reference": "Patient/cap-001"},
+        "effectiveDateTime": "2026-05-10T14:25:00Z",
+        "valueQuantity": {"value": 15, "unit": "%"}
+      },
+      {
+        "resourceType": "Observation", "id": "lab-lactate-initial", "status": "final",
+        "category": [{"coding": [{"code": "laboratory"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "32693-4", "display": "Lactate"}]},
+        "subject": {"reference": "Patient/cap-001"},
+        "effectiveDateTime": "2026-05-10T14:55:00Z",
+        "valueQuantity": {"value": 3.2, "unit": "mmol/L"}
+      },
+      {
+        "resourceType": "Observation", "id": "lab-creat-1", "status": "final",
+        "category": [{"coding": [{"code": "laboratory"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "2160-0", "display": "Creatinine"}]},
+        "subject": {"reference": "Patient/cap-001"},
+        "effectiveDateTime": "2026-05-10T14:25:00Z",
+        "valueQuantity": {"value": 1.4, "unit": "mg/dL"}
+      },
+      {
+        "resourceType": "Observation", "id": "lab-platelets-1", "status": "final",
+        "category": [{"coding": [{"code": "laboratory"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "777-3", "display": "Platelets"}]},
+        "subject": {"reference": "Patient/cap-001"},
+        "effectiveDateTime": "2026-05-10T14:25:00Z",
+        "valueQuantity": {"value": 142, "unit": "10*3/uL"}
+      },
+      {
+        "resourceType": "Observation", "id": "anthro-weight-1", "status": "final",
+        "category": [{"coding": [{"code": "vital-signs"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "29463-7", "display": "Body weight"}]},
+        "subject": {"reference": "Patient/cap-001"},
+        "effectiveDateTime": "2026-05-10T13:50:00Z",
+        "valueQuantity": {"value": 68, "unit": "kg"}
+      },
+      {
+        "resourceType": "Observation", "id": "anthro-egfr-1", "status": "final",
+        "category": [{"coding": [{"code": "laboratory"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "33914-3", "display": "eGFR"}]},
+        "subject": {"reference": "Patient/cap-001"},
+        "effectiveDateTime": "2026-05-10T14:25:00Z",
+        "valueQuantity": {"value": 55, "unit": "mL/min/1.73m2"}
+      }
+    ],
+    "Condition": [
+      {
+        "resourceType": "Condition", "id": "cond-pna-1",
+        "clinicalStatus": {"coding": [{"code": "active"}]},
+        "code": {
+          "coding": [{"system": "http://snomed.info/sct", "code": "233604007", "display": "Pneumonia"}],
+          "text": "Community-acquired pneumonia, suspected"
+        },
+        "subject": {"reference": "Patient/cap-001"},
+        "onsetDateTime": "2026-05-10T14:10:00Z"
+      }
+    ],
+    "AllergyIntolerance": [
+      {
+        "resourceType": "AllergyIntolerance", "id": "allergy-1",
+        "clinicalStatus": {"coding": [{"code": "active"}]},
+        "criticality": "low",
+        "code": {"coding": [{"display": "Sulfa drugs"}], "text": "Sulfa drugs"},
+        "patient": {"reference": "Patient/cap-001"},
+        "reaction": [{"severity": "mild", "manifestation": [{"text": "rash"}]}]
+      }
+    ],
+    "DocumentReference": [
+      {
+        "resourceType": "DocumentReference", "id": "note-admit-1",
+        "status": "current",
+        "category": [{"coding": [{"code": "clinical-note"}]}],
+        "type": {"coding": [{"display": "ED Admit Note"}]},
+        "subject": {"reference": "Patient/cap-001"},
+        "date": "2026-05-10T14:35:00Z",
+        "content": [{
+          "attachment": {
+            "contentType": "text/plain",
+            "title": "ED Admit Note",
+            "_data_source_file": "cap_severe_sepsis_admit.txt"
+          }
+        }]
+      }
+    ],
+    "DiagnosticReport": [
+      {
+        "resourceType": "DiagnosticReport", "id": "cxr-1",
+        "status": "final",
+        "category": [{"coding": [{"code": "RAD", "display": "Radiology"}]}],
+        "code": {"coding": [{"display": "Chest XR"}]},
+        "subject": {"reference": "Patient/cap-001"},
+        "effectiveDateTime": "2026-05-10T14:20:00Z",
+        "conclusion": "Right lower lobe consolidation consistent with pneumonia. No effusion. No pneumothorax."
+      }
+    ],
+    "MedicationRequest": [],
+    "MedicationAdministration": [],
+    "Specimen": []
+  }
+}

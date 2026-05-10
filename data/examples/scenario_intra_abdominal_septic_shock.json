@@ -1,0 +1,188 @@
+{
+  "scenario_id": "intra_abdominal_septic_shock",
+  "title": "Intra-abdominal septic shock (perforated viscus)",
+  "synthetic_data_disclaimer": "SYNTHETIC DATA. No real patient information.",
+  "anchor_time": "2026-05-10T18:05:00Z",
+  "clinical_note_file": "intra_abdominal_ed.txt",
+  "prompt": "ED just called — this patient has shock vitals and an acute abdomen. Run sepsis bundle execution aggressively.",
+  "expected_classification": "septic_shock",
+  "expected_infection_source": "intra_abdominal",
+  "patient_id": "iab-003",
+  "weight_kg": 78,
+  "patient_synthetic_record": {
+    "Patient": {
+      "resourceType": "Patient",
+      "id": "iab-003",
+      "gender": "male",
+      "birthDate": "1971-07-04"
+    },
+    "Encounter": [
+      {
+        "resourceType": "Encounter",
+        "id": "enc-iab-003",
+        "status": "in-progress",
+        "class": {"system": "http://terminology.hl7.org/CodeSystem/v3-ActCode", "code": "EMER"},
+        "subject": {"reference": "Patient/iab-003"},
+        "period": {"start": "2026-05-10T17:30:00Z"}
+      }
+    ],
+    "Observation": [
+      {
+        "resourceType": "Observation", "id": "vital-hr-iab", "status": "final",
+        "category": [{"coding": [{"code": "vital-signs"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "8867-4"}]},
+        "subject": {"reference": "Patient/iab-003"},
+        "effectiveDateTime": "2026-05-10T18:00:00Z",
+        "valueQuantity": {"value": 132, "unit": "/min"}
+      },
+      {
+        "resourceType": "Observation", "id": "vital-sbp-iab", "status": "final",
+        "category": [{"coding": [{"code": "vital-signs"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "8480-6"}]},
+        "subject": {"reference": "Patient/iab-003"},
+        "effectiveDateTime": "2026-05-10T18:00:00Z",
+        "valueQuantity": {"value": 78, "unit": "mm[Hg]"}
+      },
+      {
+        "resourceType": "Observation", "id": "vital-dbp-iab", "status": "final",
+        "category": [{"coding": [{"code": "vital-signs"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "8462-4"}]},
+        "subject": {"reference": "Patient/iab-003"},
+        "effectiveDateTime": "2026-05-10T18:00:00Z",
+        "valueQuantity": {"value": 44, "unit": "mm[Hg]"}
+      },
+      {
+        "resourceType": "Observation", "id": "vital-map-iab", "status": "final",
+        "category": [{"coding": [{"code": "vital-signs"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "8478-0"}]},
+        "subject": {"reference": "Patient/iab-003"},
+        "effectiveDateTime": "2026-05-10T18:00:00Z",
+        "valueQuantity": {"value": 55, "unit": "mm[Hg]"}
+      },
+      {
+        "resourceType": "Observation", "id": "vital-rr-iab", "status": "final",
+        "category": [{"coding": [{"code": "vital-signs"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "9279-1"}]},
+        "subject": {"reference": "Patient/iab-003"},
+        "effectiveDateTime": "2026-05-10T18:00:00Z",
+        "valueQuantity": {"value": 30, "unit": "/min"}
+      },
+      {
+        "resourceType": "Observation", "id": "vital-temp-iab", "status": "final",
+        "category": [{"coding": [{"code": "vital-signs"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "8310-5"}]},
+        "subject": {"reference": "Patient/iab-003"},
+        "effectiveDateTime": "2026-05-10T18:00:00Z",
+        "valueQuantity": {"value": 39.4, "unit": "Cel"}
+      },
+      {
+        "resourceType": "Observation", "id": "vital-gcs-iab", "status": "final",
+        "category": [{"coding": [{"code": "vital-signs"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "9269-2"}]},
+        "subject": {"reference": "Patient/iab-003"},
+        "effectiveDateTime": "2026-05-10T18:00:00Z",
+        "valueQuantity": {"value": 11, "unit": "{score}"}
+      },
+      {
+        "resourceType": "Observation", "id": "lab-wbc-iab", "status": "final",
+        "category": [{"coding": [{"code": "laboratory"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "6690-2"}]},
+        "subject": {"reference": "Patient/iab-003"},
+        "effectiveDateTime": "2026-05-10T17:50:00Z",
+        "valueQuantity": {"value": 24, "unit": "10*3/uL"}
+      },
+      {
+        "resourceType": "Observation", "id": "lab-lactate-iab", "status": "final",
+        "category": [{"coding": [{"code": "laboratory"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "32693-4"}]},
+        "subject": {"reference": "Patient/iab-003"},
+        "effectiveDateTime": "2026-05-10T18:05:00Z",
+        "valueQuantity": {"value": 5.8, "unit": "mmol/L"}
+      },
+      {
+        "resourceType": "Observation", "id": "lab-creat-iab", "status": "final",
+        "category": [{"coding": [{"code": "laboratory"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "2160-0"}]},
+        "subject": {"reference": "Patient/iab-003"},
+        "effectiveDateTime": "2026-05-10T17:50:00Z",
+        "valueQuantity": {"value": 2.1, "unit": "mg/dL"}
+      },
+      {
+        "resourceType": "Observation", "id": "lab-inr-iab", "status": "final",
+        "category": [{"coding": [{"code": "laboratory"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "6301-6"}]},
+        "subject": {"reference": "Patient/iab-003"},
+        "effectiveDateTime": "2026-05-10T17:50:00Z",
+        "valueQuantity": {"value": 1.6}
+      },
+      {
+        "resourceType": "Observation", "id": "lab-platelets-iab", "status": "final",
+        "category": [{"coding": [{"code": "laboratory"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "777-3"}]},
+        "subject": {"reference": "Patient/iab-003"},
+        "effectiveDateTime": "2026-05-10T17:50:00Z",
+        "valueQuantity": {"value": 88, "unit": "10*3/uL"}
+      },
+      {
+        "resourceType": "Observation", "id": "anthro-weight-iab", "status": "final",
+        "category": [{"coding": [{"code": "vital-signs"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "29463-7"}]},
+        "subject": {"reference": "Patient/iab-003"},
+        "effectiveDateTime": "2026-05-10T17:35:00Z",
+        "valueQuantity": {"value": 78, "unit": "kg"}
+      },
+      {
+        "resourceType": "Observation", "id": "anthro-egfr-iab", "status": "final",
+        "category": [{"coding": [{"code": "laboratory"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "33914-3"}]},
+        "subject": {"reference": "Patient/iab-003"},
+        "effectiveDateTime": "2026-05-10T17:50:00Z",
+        "valueQuantity": {"value": 38, "unit": "mL/min/1.73m2"}
+      }
+    ],
+    "Condition": [
+      {
+        "resourceType": "Condition", "id": "cond-perforation",
+        "clinicalStatus": {"coding": [{"code": "active"}]},
+        "code": {
+          "coding": [{"system": "http://snomed.info/sct", "code": "74474003", "display": "Peritonitis"}],
+          "text": "Intra-abdominal infection — suspected perforated viscus"
+        },
+        "subject": {"reference": "Patient/iab-003"},
+        "onsetDateTime": "2026-05-10T17:30:00Z"
+      }
+    ],
+    "AllergyIntolerance": [],
+    "DocumentReference": [
+      {
+        "resourceType": "DocumentReference", "id": "note-ed-iab",
+        "status": "current",
+        "category": [{"coding": [{"code": "clinical-note"}]}],
+        "type": {"coding": [{"display": "ED Triage Note"}]},
+        "subject": {"reference": "Patient/iab-003"},
+        "date": "2026-05-10T17:45:00Z",
+        "content": [{
+          "attachment": {
+            "contentType": "text/plain",
+            "title": "ED Triage Note — acute abdomen, shock",
+            "_data_source_file": "intra_abdominal_ed.txt"
+          }
+        }]
+      }
+    ],
+    "DiagnosticReport": [
+      {
+        "resourceType": "DiagnosticReport", "id": "ct-abd-1",
+        "status": "final",
+        "category": [{"coding": [{"code": "RAD", "display": "Radiology"}]}],
+        "code": {"coding": [{"display": "CT abdomen/pelvis with contrast"}]},
+        "subject": {"reference": "Patient/iab-003"},
+        "effectiveDateTime": "2026-05-10T17:55:00Z",
+        "conclusion": "Free air under the diaphragm. Findings consistent with perforated viscus. No drainable abscess at this time. Septic emboli not excluded."
+      }
+    ],
+    "MedicationRequest": [],
+    "MedicationAdministration": [],
+    "Specimen": []
+  }
+}

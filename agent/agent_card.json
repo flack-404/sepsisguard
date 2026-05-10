@@ -1,0 +1,64 @@
+{
+  "protocolVersion": "1.0",
+  "name": "SepsisGuard",
+  "description": "Multi-agent SEP-1 bundle co-pilot. Screens emerging sepsis, executes the CMS SEP-1 3-hr/6-hr bundle, drafts CMS-abstractor-grade documentation. FHIR-native; reads vitals, labs, and free-text nursing notes; writes Task, Communication, and DocumentReference resources.",
+  "version": "0.1.0",
+  "provider": {
+    "name": "SepsisGuard",
+    "url": "https://github.com/flack-404/sepsisguard"
+  },
+  "capabilities": {
+    "streaming": false,
+    "extensions": [
+      {
+        "uri": "https://app.promptopinion.ai/schemas/a2a/v1/fhir-context",
+        "description": "FHIR context (X-FHIR-Server-URL, X-FHIR-Access-Token, X-Patient-ID) for sepsis bundle execution.",
+        "required": true,
+        "params": {
+          "scopes": [
+            {"name": "patient/Patient.rs", "required": true},
+            {"name": "patient/Encounter.rs", "required": true},
+            {"name": "patient/Observation.rs", "required": true},
+            {"name": "patient/Condition.rs", "required": true},
+            {"name": "patient/MedicationRequest.rs", "required": true},
+            {"name": "patient/MedicationAdministration.rs", "required": true},
+            {"name": "patient/AllergyIntolerance.rs", "required": true},
+            {"name": "patient/DiagnosticReport.rs", "required": true},
+            {"name": "patient/DocumentReference.rs", "required": true},
+            {"name": "patient/Specimen.rs"},
+            {"name": "patient/Procedure.rs"},
+            {"name": "user/Task.c", "required": true},
+            {"name": "user/Communication.c", "required": true},
+            {"name": "user/DocumentReference.c", "required": true},
+            {"name": "user/MedicationRequest.c"}
+          ]
+        }
+      }
+    ]
+  },
+  "skills": [
+    {
+      "id": "continuous_sepsis_monitoring",
+      "name": "Watch a patient for emerging sepsis",
+      "description": "Continuously screen the patient for SIRS/qSOFA criteria and free-text signals in nursing notes / DiagnosticReports. Surfaces a SepsisAlert if criteria are met without committing to bundle execution.",
+      "tags": ["sepsis", "early-warning", "icu", "screening"]
+    },
+    {
+      "id": "bundle_execution",
+      "name": "Execute the CMS SEP-1 bundle for a confirmed sepsis case",
+      "description": "Drive each 3-hr and 6-hr SEP-1 bundle element to completion. Creates Task resources for nursing/pharmacy/lab, drafts antibiotic regimens for clinician sign-off, notifies the care team, and drafts the abstractor-grade SEP-1 documentation note.",
+      "tags": ["sepsis", "sep-1", "bundle", "icu", "value-based-purchasing"]
+    },
+    {
+      "id": "bundle_audit_review",
+      "name": "Audit a completed sepsis encounter for SEP-1 compliance",
+      "description": "Walk a discharged patient's record and predict whether the encounter passes CMS SEP-1 abstractor review. Returns a compliance score and a punch-list of audit concerns.",
+      "tags": ["sepsis", "audit", "vbp", "quality"]
+    }
+  ],
+  "supportedInterfaces": [
+    {"transport": "JSONRPC", "uri": "/a2a"}
+  ],
+  "defaultInputModes": ["text/plain"],
+  "defaultOutputModes": ["text/plain", "application/json"]
+}

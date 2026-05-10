@@ -1,0 +1,22 @@
+ED TRIAGE NOTE — 54-year-old male
+
+CC: Severe abdominal pain x 3 days, vomiting, fever.
+
+HPI: Patient with 3 days of progressive abdominal pain initially periumbilical now diffuse, associated with non-bloody vomiting and subjective fever to 39+°C. Patient appears acutely ill, diaphoretic, mottled extremities.
+
+VITALS: HR 132, BP 78/44 (MAP 55), RR 30, Temp 39.4°C, SpO2 94% RA.
+
+EXAM: Patient obtunded, responsive to voice but not oriented. Abdomen rigid, peritoneal signs (rebound, guarding) diffuse. Bowel sounds absent.
+
+LABS:
+- WBC 24 K/uL
+- Lactate 5.8 mmol/L (severely elevated)
+- Creatinine 2.1 mg/dL (baseline unknown but presumed acute)
+- INR 1.6
+- Platelets 88 K/uL (thrombocytopenia)
+
+IMAGING: CT abdomen with contrast — free air under diaphragm, suspected perforated viscus. No drainable abscess yet.
+
+ASSESSMENT: Septic shock with intra-abdominal source, presumed hollow viscus perforation. Lactate ≥ 4, persistent hypotension, multi-organ dysfunction (renal, coagulation, platelets). Surgical emergency.
+
+PLAN: STAT general surgery consult. 30 mL/kg LR bolus immediately. Empiric broad-spectrum antibiotics with anaerobic coverage (piperacillin-tazobactam + vancomycin OR cefepime + metronidazole + vancomycin). Vasopressors anticipated. Repeat lactate at 4 hours. Crossmatch 4 units PRBC. ICU admission post-OR.

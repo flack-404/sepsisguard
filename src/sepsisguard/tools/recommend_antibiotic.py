@@ -139,7 +139,7 @@ async def recommend_antibiotic(
         result = await client.generate(
             system_blocks=system_blocks,
             user_blocks=user_blocks,
-            max_tokens=1200,
+            max_tokens=2500,
         )
         parsed = _parse_json(result.text)
         parsed.setdefault("primary_regimen", [])
@@ -216,16 +216,34 @@ async def _fetch_latest_obs_value(
 
 
 def _parse_json(text: str) -> dict[str, Any]:
+    """Extract the first complete JSON object from text. Tolerates code fences."""
     s = text.strip()
     if s.startswith("```"):
         s = s.split("```", 2)[1]
         if s.startswith("json"):
             s = s[4:]
         s = s.rsplit("```", 1)[0]
-    start, end = s.find("{"), s.rfind("}")
-    if start == -1 or end == -1:
+
+    # Find every top-level JSON object and parse the largest one with the most keys.
+    candidates: list[dict[str, Any]] = []
+    depth = 0
+    start_idx = -1
+    for i, ch in enumerate(s):
+        if ch == "{":
+            if depth == 0:
+                start_idx = i
+            depth += 1
+        elif ch == "}":
+            depth -= 1
+            if depth == 0 and start_idx != -1:
+                try:
+                    candidates.append(json.loads(s[start_idx : i + 1]))
+                except json.JSONDecodeError:
+                    pass
+                start_idx = -1
+
+    if not candidates:
         return {}
-    try:
-        return json.loads(s[start : end + 1])
-    except json.JSONDecodeError:
-        return {}
+    # Pick the candidate with the most relevant top-level keys.
+    target_keys = {"primary_regimen", "rationale", "contraindications_checked", "guidelines_cited"}
+    return max(candidates, key=lambda d: len(set(d.keys()) & target_keys))

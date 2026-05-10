@@ -185,16 +185,32 @@ def _stub_response(screening_packet: dict[str, Any]) -> dict[str, Any]:
 
 
 def _parse_json(text: str) -> dict[str, Any]:
+    """Extract the largest top-level JSON object containing classification keys."""
     s = text.strip()
     if s.startswith("```"):
         s = s.split("```", 2)[1]
         if s.startswith("json"):
             s = s[4:]
         s = s.rsplit("```", 1)[0]
-    start, end = s.find("{"), s.rfind("}")
-    if start == -1 or end == -1:
+
+    candidates: list[dict[str, Any]] = []
+    depth = 0
+    start_idx = -1
+    for i, ch in enumerate(s):
+        if ch == "{":
+            if depth == 0:
+                start_idx = i
+            depth += 1
+        elif ch == "}":
+            depth -= 1
+            if depth == 0 and start_idx != -1:
+                try:
+                    candidates.append(json.loads(s[start_idx : i + 1]))
+                except json.JSONDecodeError:
+                    pass
+                start_idx = -1
+
+    if not candidates:
         return {}
-    try:
-        return json.loads(s[start : end + 1])
-    except json.JSONDecodeError:
-        return {}
+    target_keys = {"classification", "time_zero", "infection_source_suspected", "confidence"}
+    return max(candidates, key=lambda d: len(set(d.keys()) & target_keys))

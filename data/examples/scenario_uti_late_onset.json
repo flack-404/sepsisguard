@@ -1,0 +1,170 @@
+{
+  "scenario_id": "uti_late_onset",
+  "title": "Hospital-onset urinary sepsis (Foley-associated, POD 4)",
+  "synthetic_data_disclaimer": "SYNTHETIC DATA. No real patient information.",
+  "anchor_time": "2026-05-10T07:15:00Z",
+  "clinical_note_file": "uti_late_onset_pod4.txt",
+  "prompt": "Patient is POD 4 from ortho and the night nurse just escalated mental status change. Run sepsis bundle execution.",
+  "expected_classification": "severe_sepsis",
+  "expected_infection_source": "urinary",
+  "patient_id": "uti-002",
+  "weight_kg": 82,
+  "patient_synthetic_record": {
+    "Patient": {
+      "resourceType": "Patient",
+      "id": "uti-002",
+      "gender": "male",
+      "birthDate": "1948-09-22"
+    },
+    "Encounter": [
+      {
+        "resourceType": "Encounter",
+        "id": "enc-uti-002",
+        "status": "in-progress",
+        "class": {"system": "http://terminology.hl7.org/CodeSystem/v3-ActCode", "code": "IMP"},
+        "subject": {"reference": "Patient/uti-002"},
+        "period": {"start": "2026-05-06T08:00:00Z"}
+      }
+    ],
+    "Observation": [
+      {
+        "resourceType": "Observation", "id": "vital-hr-uti", "status": "final",
+        "category": [{"coding": [{"code": "vital-signs"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "8867-4"}]},
+        "subject": {"reference": "Patient/uti-002"},
+        "effectiveDateTime": "2026-05-10T07:00:00Z",
+        "valueQuantity": {"value": 102, "unit": "/min"}
+      },
+      {
+        "resourceType": "Observation", "id": "vital-sbp-uti", "status": "final",
+        "category": [{"coding": [{"code": "vital-signs"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "8480-6"}]},
+        "subject": {"reference": "Patient/uti-002"},
+        "effectiveDateTime": "2026-05-10T07:00:00Z",
+        "valueQuantity": {"value": 138, "unit": "mm[Hg]"}
+      },
+      {
+        "resourceType": "Observation", "id": "vital-dbp-uti", "status": "final",
+        "category": [{"coding": [{"code": "vital-signs"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "8462-4"}]},
+        "subject": {"reference": "Patient/uti-002"},
+        "effectiveDateTime": "2026-05-10T07:00:00Z",
+        "valueQuantity": {"value": 82, "unit": "mm[Hg]"}
+      },
+      {
+        "resourceType": "Observation", "id": "vital-rr-uti", "status": "final",
+        "category": [{"coding": [{"code": "vital-signs"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "9279-1"}]},
+        "subject": {"reference": "Patient/uti-002"},
+        "effectiveDateTime": "2026-05-10T07:00:00Z",
+        "valueQuantity": {"value": 22, "unit": "/min"}
+      },
+      {
+        "resourceType": "Observation", "id": "vital-temp-uti", "status": "final",
+        "category": [{"coding": [{"code": "vital-signs"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "8310-5"}]},
+        "subject": {"reference": "Patient/uti-002"},
+        "effectiveDateTime": "2026-05-10T07:00:00Z",
+        "valueQuantity": {"value": 38.6, "unit": "Cel"}
+      },
+      {
+        "resourceType": "Observation", "id": "vital-gcs-uti", "status": "final",
+        "category": [{"coding": [{"code": "vital-signs"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "9269-2"}]},
+        "subject": {"reference": "Patient/uti-002"},
+        "effectiveDateTime": "2026-05-10T07:00:00Z",
+        "valueQuantity": {"value": 13, "unit": "{score}"}
+      },
+      {
+        "resourceType": "Observation", "id": "lab-wbc-uti", "status": "final",
+        "category": [{"coding": [{"code": "laboratory"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "6690-2"}]},
+        "subject": {"reference": "Patient/uti-002"},
+        "effectiveDateTime": "2026-05-10T06:00:00Z",
+        "valueQuantity": {"value": 13.8, "unit": "10*3/uL"}
+      },
+      {
+        "resourceType": "Observation", "id": "lab-lactate-uti", "status": "final",
+        "category": [{"coding": [{"code": "laboratory"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "32693-4"}]},
+        "subject": {"reference": "Patient/uti-002"},
+        "effectiveDateTime": "2026-05-10T07:10:00Z",
+        "valueQuantity": {"value": 2.4, "unit": "mmol/L"}
+      },
+      {
+        "resourceType": "Observation", "id": "lab-creat-uti", "status": "final",
+        "category": [{"coding": [{"code": "laboratory"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "2160-0"}]},
+        "subject": {"reference": "Patient/uti-002"},
+        "effectiveDateTime": "2026-05-10T06:00:00Z",
+        "valueQuantity": {"value": 1.1, "unit": "mg/dL"}
+      },
+      {
+        "resourceType": "Observation", "id": "anthro-weight-uti", "status": "final",
+        "category": [{"coding": [{"code": "vital-signs"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "29463-7"}]},
+        "subject": {"reference": "Patient/uti-002"},
+        "effectiveDateTime": "2026-05-06T08:00:00Z",
+        "valueQuantity": {"value": 82, "unit": "kg"}
+      },
+      {
+        "resourceType": "Observation", "id": "anthro-egfr-uti", "status": "final",
+        "category": [{"coding": [{"code": "laboratory"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "33914-3"}]},
+        "subject": {"reference": "Patient/uti-002"},
+        "effectiveDateTime": "2026-05-10T06:00:00Z",
+        "valueQuantity": {"value": 68, "unit": "mL/min/1.73m2"}
+      }
+    ],
+    "Condition": [
+      {
+        "resourceType": "Condition", "id": "cond-foley",
+        "clinicalStatus": {"coding": [{"code": "active"}]},
+        "code": {"text": "Foley catheter — post-operative", "coding": []},
+        "subject": {"reference": "Patient/uti-002"},
+        "onsetDateTime": "2026-05-06T09:00:00Z"
+      }
+    ],
+    "AllergyIntolerance": [
+      {
+        "resourceType": "AllergyIntolerance", "id": "allergy-pcn",
+        "clinicalStatus": {"coding": [{"code": "active"}]},
+        "criticality": "low",
+        "code": {"coding": [{"display": "Penicillin"}], "text": "Penicillin — rash only"},
+        "patient": {"reference": "Patient/uti-002"},
+        "reaction": [{"severity": "mild", "manifestation": [{"text": "rash"}]}]
+      }
+    ],
+    "DocumentReference": [
+      {
+        "resourceType": "DocumentReference", "id": "note-pod4",
+        "status": "current",
+        "category": [{"coding": [{"code": "clinical-note"}]}],
+        "type": {"coding": [{"display": "Nursing Note"}]},
+        "subject": {"reference": "Patient/uti-002"},
+        "date": "2026-05-10T07:15:00Z",
+        "content": [{
+          "attachment": {
+            "contentType": "text/plain",
+            "title": "POD 4 Nursing Note — mental status change",
+            "_data_source_file": "uti_late_onset_pod4.txt"
+          }
+        }]
+      }
+    ],
+    "DiagnosticReport": [
+      {
+        "resourceType": "DiagnosticReport", "id": "ua-1",
+        "status": "preliminary",
+        "category": [{"coding": [{"code": "LAB", "display": "Laboratory"}]}],
+        "code": {"coding": [{"display": "Urinalysis"}]},
+        "subject": {"reference": "Patient/uti-002"},
+        "effectiveDateTime": "2026-05-10T06:30:00Z",
+        "conclusion": "Cloudy urine with leukocyte esterase positive, nitrites positive, many bacteria. Suggestive of urinary tract infection."
+      }
+    ],
+    "MedicationRequest": [],
+    "MedicationAdministration": [],
+    "Specimen": []
+  }
+}
