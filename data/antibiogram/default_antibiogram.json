@@ -1,0 +1,83 @@
+{
+  "facility": "Default ICU Antibiogram (synthetic — replace with facility data)",
+  "year": 2025,
+  "organisms": {
+    "E_coli": {
+      "cefepime": 92,
+      "ceftriaxone": 78,
+      "piperacillin_tazobactam": 95,
+      "meropenem": 100,
+      "levofloxacin": 68,
+      "vancomycin": 0
+    },
+    "Klebsiella_pneumoniae": {
+      "cefepime": 88,
+      "ceftriaxone": 70,
+      "piperacillin_tazobactam": 90,
+      "meropenem": 99,
+      "levofloxacin": 72,
+      "vancomycin": 0
+    },
+    "Pseudomonas_aeruginosa": {
+      "cefepime": 85,
+      "piperacillin_tazobactam": 80,
+      "meropenem": 88,
+      "ceftriaxone": 0,
+      "levofloxacin": 74,
+      "vancomycin": 0
+    },
+    "S_aureus_MSSA": {
+      "cefazolin": 100,
+      "vancomycin": 100,
+      "nafcillin": 100,
+      "linezolid": 100,
+      "ceftriaxone": 85,
+      "cefepime": 85
+    },
+    "S_aureus_MRSA": {
+      "vancomycin": 100,
+      "linezolid": 100,
+      "ceftriaxone": 0,
+      "nafcillin": 0,
+      "cefazolin": 0,
+      "cefepime": 0
+    },
+    "Enterococcus_faecalis": {
+      "vancomycin": 95,
+      "linezolid": 100,
+      "piperacillin_tazobactam": 85,
+      "meropenem": 0
+    },
+    "Enterococcus_faecium_VRE": {
+      "vancomycin": 0,
+      "linezolid": 100,
+      "piperacillin_tazobactam": 0
+    }
+  },
+  "first_line_by_source": {
+    "pneumonia": {
+      "primary": ["cefepime", "vancomycin"],
+      "alt_pcn_allergy": ["levofloxacin", "vancomycin"]
+    },
+    "urinary": {
+      "primary": ["piperacillin_tazobactam"],
+      "alt_pcn_allergy": ["cefepime"]
+    },
+    "intra_abdominal": {
+      "primary": ["piperacillin_tazobactam", "vancomycin"],
+      "alt_pcn_allergy": ["cefepime", "metronidazole", "vancomycin"]
+    },
+    "skin_soft_tissue": {
+      "primary": ["vancomycin", "piperacillin_tazobactam"],
+      "alt_pcn_allergy": ["vancomycin", "cefepime"]
+    },
+    "central_line": {
+      "primary": ["vancomycin", "cefepime"],
+      "alt_pcn_allergy": ["vancomycin", "meropenem"]
+    },
+    "unknown": {
+      "primary": ["vancomycin", "piperacillin_tazobactam"],
+      "alt_pcn_allergy": ["vancomycin", "meropenem"]
+    }
+  }
+}

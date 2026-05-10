@@ -35,6 +35,13 @@ The 7 tools are: `screen_sepsis_signals`, `confirm_sepsis_diagnosis`, `score_bun
 
 Most clinical correctness lives in `sep1_definition.py` (bundle elements, deadlines, scoring math) and `tools/score_bundle.py`. The spec author flags these as the hard part — code is mechanical.
 
+## Code conventions
+
+- `from __future__ import annotations` at the top of every module (Python 3.10+ compat).
+- Type hints required on all public APIs.
+- `asyncio_mode = "auto"` is set in `pyproject.toml` — async tests do **not** need `@pytest.mark.asyncio`.
+- If you rename or change the signature of any public API used across phases (especially the four infra modules: `sharp_context`, `fhir_client`, `claude_client`, `audit`), document the change at the top of `PHASES.md` so downstream phase authors don't have to chase it.
+
 ## Conventions and gotchas the spec is emphatic about
 
 These are the easy-to-miss details that have already burned the spec author:
@@ -56,23 +63,45 @@ These are the easy-to-miss details that have already burned the spec author:
 
 `src/sepsisguard/` package with `tools/` subdirectory for the 7 tool modules; `agent/`, `data/`, `demo/`, `docs/`, `scripts/`, `tests/`, `assets/`, `logs/` siblings. Full tree in spec §11. Cloud entrypoint is `python -m sepsisguard.server`; transport auto-selects to `sse` when `$PORT` is set (Railway), else `stdio`.
 
-## Common commands (once implemented)
+## Setup
 
 ```bash
-# Local server
-python -m sepsisguard.server --transport sse --port 8080
+# Install package in editable mode with dev deps
+pip install -e ".[dev]"
 
-# Demo (offline, no API key required if stubs are wired)
-python -m sepsisguard.demo --scenario cap_severe_sepsis
-python -m sepsisguard.demo --scenario uti_late_onset
-python -m sepsisguard.demo --scenario intra_abdominal_septic_shock
-python -m sepsisguard.demo --scenario all
-
-# Tests
-pytest tests/ -v
+# Copy env template and fill in values
+cp .env.example .env
 ```
 
-Required env vars: `ANTHROPIC_API_KEY`, `PYTHONPATH=src` (package lives in `src/`), `LOG_LEVEL`, `DEMO_MODE`.
+## Common commands
+
+```bash
+# Lint and format
+ruff check src/ tests/
+ruff format src/ tests/
+
+# Run all tests
+PYTHONPATH=src pytest tests/ -v
+
+# Run a single test
+PYTHONPATH=src pytest tests/path/to/test_file.py::test_name -v
+
+# Local server (two equivalent forms after pip install -e)
+PYTHONPATH=src python -m sepsisguard.server --transport sse --port 8080
+sepsisguard-server --transport sse --port 8080
+
+# Demo (offline, no API key required if stubs are wired — two equivalent forms)
+PYTHONPATH=src python -m sepsisguard.demo --scenario cap_severe_sepsis
+sepsisguard-demo --scenario uti_late_onset
+sepsisguard-demo --scenario intra_abdominal_septic_shock
+sepsisguard-demo --scenario all
+```
+
+Required env vars: `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL` (default `claude-opus-4-7`), `SEPSISGUARD_TRANSPORT` (auto-selects `sse` when `$PORT` is set), `LOG_LEVEL`, `DEMO_MODE`. `PYTHONPATH=src` is always required (src layout).
+
+## Phase implementation guide
+
+Each phase has a self-contained doc in `docs/phases/` with file lists, spec section pointers, task checklists, and acceptance criteria. Start there before writing any code. The dependency order is: Phase 1 (Infrastructure) → Phase 2 (Domain) → Phases 3 & 4 in parallel → Phase 5 (Orchestration) → Phases 6 & 7 in parallel → Phase 8 (Submission). See `PHASES.md` for the full dependency graph.
 
 ## Spec navigation cheatsheet
 
