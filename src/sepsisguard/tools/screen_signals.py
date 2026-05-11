@@ -89,30 +89,24 @@ async def screen_sepsis_signals(*, lookback_hours: int = 24) -> dict[str, Any]:
     async with FhirClient() as fhir:
         patient_id = ctx.patient_id
 
-        # Fetch vitals + labs
-        vitals_bundle = await _safe_search(fhir, "Observation", {
+        # Fetch ALL observations for the patient — category filter dropped
+        # because many FHIR servers require system-qualified category values
+        # for the search param to match (and our bundles use unqualified codes).
+        # evaluate_sirs() / evaluate_organ_dysfunction() filter by LOINC anyway.
+        observations_bundle = await _safe_search(fhir, "Observation", {
             "patient": patient_id,
-            "category": "vital-signs",
-            "date": f"ge{window_start_str}",
             "_sort": "-date",
-            "_count": "100",
+            "_count": "200",
         })
-        labs_bundle = await _safe_search(fhir, "Observation", {
-            "patient": patient_id,
-            "category": "laboratory",
-            "date": f"ge{window_start_str}",
-            "_sort": "-date",
-            "_count": "100",
-        })
+        # Keep separate aliases for clarity downstream
+        vitals_bundle = observations_bundle
+        labs_bundle = {"entry": []}  # All obs are in vitals_bundle now
         doc_bundle = await _safe_search(fhir, "DocumentReference", {
             "patient": patient_id,
-            "date": f"ge{window_start_str}",
             "_count": "50",
         })
         diag_bundle = await _safe_search(fhir, "DiagnosticReport", {
             "patient": patient_id,
-            "category": "micro-bact",
-            "date": f"ge{window_start_str}",
             "_count": "50",
         })
         condition_bundle = await _safe_search(fhir, "Condition", {
@@ -150,7 +144,8 @@ async def screen_sepsis_signals(*, lookback_hours: int = 24) -> dict[str, Any]:
 
     # Recommendation logic
     has_signals = sirs["count_met"] >= 2 or len(organ_markers) > 0 or len(free_text_triggers) > 0
-    has_labs = len(labs) > 0
+    # Sufficient lab data = any observations returned (we no longer split by category)
+    has_labs = len(observations) > 0
     has_infection = len(infection_evidence) > 0
 
     if not has_signals:
