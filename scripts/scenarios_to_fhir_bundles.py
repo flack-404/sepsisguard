@@ -1,0 +1,147 @@
+"""Convert scenario JSONs → uploadable FHIR R4 transaction Bundles.
+
+Per spec §17.4 and the hackathon video transcript: the judge uploads our FHIR
+Bundle into the Prompt Opinion workspace's FHIR server. The bundle must be
+POST-only with urn:uuid: references — no client-supplied resource IDs.
+
+Usage:
+    python scripts/scenarios_to_fhir_bundles.py                    # all scenarios
+    python scripts/scenarios_to_fhir_bundles.py --scenario cap_severe_sepsis
+"""
+
+from __future__ import annotations
+
+import argparse
+import base64
+import json
+import sys
+import uuid
+from pathlib import Path
+from typing import Any
+
+_REPO_ROOT = Path(__file__).parent.parent
+_SCENARIOS_DIR = _REPO_ROOT / "data" / "examples"
+_CLINICAL_NOTES_DIR = _REPO_ROOT / "data" / "clinical_notes"
+_OUTPUT_DIR = _REPO_ROOT / "data" / "fhir_bundles"
+
+_SCENARIO_FILES = {
+    "cap_severe_sepsis": "scenario_cap_severe_sepsis.json",
+    "uti_late_onset": "scenario_uti_late_onset.json",
+    "intra_abdominal_septic_shock": "scenario_intra_abdominal_septic_shock.json",
+}
+
+
+def _load_scenario(scenario_id: str) -> dict[str, Any]:
+    path = _SCENARIOS_DIR / _SCENARIO_FILES[scenario_id]
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _attach_clinical_notes(scenario: dict[str, Any]) -> None:
+    record = scenario.get("patient_synthetic_record", {})
+    for doc in record.get("DocumentReference", []) or []:
+        for content in doc.get("content", []) or []:
+            attachment = content.get("attachment", {}) or {}
+            file_ref = attachment.pop("_data_source_file", None)
+            if file_ref and "data" not in attachment:
+                note_path = _CLINICAL_NOTES_DIR / file_ref
+                raw = note_path.read_text(encoding="utf-8")
+                attachment["data"] = base64.b64encode(raw.encode("utf-8")).decode("ascii")
+
+
+def _strip_ids_and_remap(record: dict[str, Any]) -> tuple[dict[str, list[dict[str, Any]]], dict[str, str]]:
+    """Strip client-supplied ids; build resource_type → resources + id→urn:uuid map."""
+    resources: dict[str, list[dict[str, Any]]] = {}
+    id_to_urn: dict[str, str] = {}
+
+    def _process(resource: dict[str, Any]) -> None:
+        rt = resource.get("resourceType")
+        if not rt:
+            return
+        old_id = resource.pop("id", None)
+        urn = f"urn:uuid:{uuid.uuid4()}"
+        if old_id:
+            id_to_urn[f"{rt}/{old_id}"] = urn
+        resources.setdefault(rt, []).append({"_urn": urn, "resource": resource})
+
+    for rt, val in record.items():
+        if isinstance(val, dict):
+            _process(val)
+        elif isinstance(val, list):
+            for item in val:
+                if isinstance(item, dict):
+                    _process(item)
+
+    return resources, id_to_urn
+
+
+def _remap_references(obj: Any, id_to_urn: dict[str, str]) -> None:
+    """Recursively rewrite 'reference' fields like 'Patient/abc' → 'urn:uuid:...'."""
+    if isinstance(obj, dict):
+        for k, v in obj.items():
+            if k == "reference" and isinstance(v, str) and v in id_to_urn:
+                obj[k] = id_to_urn[v]
+            else:
+                _remap_references(v, id_to_urn)
+    elif isinstance(obj, list):
+        for item in obj:
+            _remap_references(item, id_to_urn)
+
+
+def build_bundle(scenario: dict[str, Any]) -> dict[str, Any]:
+    record = scenario.get("patient_synthetic_record", {})
+    resources, id_to_urn = _strip_ids_and_remap(record)
+
+    entries: list[dict[str, Any]] = []
+    for rt, items in resources.items():
+        for item in items:
+            res = item["resource"]
+            urn = item["_urn"]
+            _remap_references(res, id_to_urn)
+            entries.append({
+                "fullUrl": urn,
+                "resource": {"resourceType": rt, **res},
+                "request": {"method": "POST", "url": rt},
+            })
+
+    return {
+        "resourceType": "Bundle",
+        "type": "transaction",
+        "entry": entries,
+    }
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(prog="scenarios_to_fhir_bundles")
+    parser.add_argument(
+        "--scenario",
+        default="all",
+        help="Scenario to convert: <id> | all (default).",
+    )
+    parser.add_argument(
+        "--output-dir", default=str(_OUTPUT_DIR),
+        help=f"Output directory (default {_OUTPUT_DIR}).",
+    )
+    args = parser.parse_args()
+
+    targets = (
+        list(_SCENARIO_FILES) if args.scenario == "all" else [args.scenario]
+    )
+    out_dir = Path(args.output_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    for sid in targets:
+        if sid not in _SCENARIO_FILES:
+            print(f"❌ Unknown scenario: {sid}", file=sys.stderr)
+            return 2
+        scenario = _load_scenario(sid)
+        _attach_clinical_notes(scenario)
+        bundle = build_bundle(scenario)
+        out_path = out_dir / f"{sid}.bundle.json"
+        out_path.write_text(json.dumps(bundle, indent=2), encoding="utf-8")
+        print(f"✅ {sid}: {len(bundle['entry'])} entries → {out_path}")
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

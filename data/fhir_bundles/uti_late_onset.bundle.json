@@ -1,0 +1,572 @@
+{
+  "resourceType": "Bundle",
+  "type": "transaction",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb",
+      "resource": {
+        "resourceType": "Patient",
+        "gender": "male",
+        "birthDate": "1948-09-22"
+      },
+      "request": {
+        "method": "POST",
+        "url": "Patient"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:222557aa-d4ad-4066-b507-76355d873049",
+      "resource": {
+        "resourceType": "Encounter",
+        "status": "in-progress",
+        "class": {
+          "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+          "code": "IMP"
+        },
+        "subject": {
+          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+        },
+        "period": {
+          "start": "2026-05-06T08:00:00Z"
+        }
+      },
+      "request": {
+        "method": "POST",
+        "url": "Encounter"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a4047825-8728-42a7-adc2-1075d5be8a01",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "vital-signs"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "8867-4"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+        },
+        "effectiveDateTime": "2026-05-10T07:00:00Z",
+        "valueQuantity": {
+          "value": 102,
+          "unit": "/min"
+        }
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:3a1b386d-332a-49f5-ab9c-0a1abd0369e1",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "vital-signs"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "8480-6"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+        },
+        "effectiveDateTime": "2026-05-10T07:00:00Z",
+        "valueQuantity": {
+          "value": 138,
+          "unit": "mm[Hg]"
+        }
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:3b285ce6-0cff-47d0-9402-f9c999323898",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "vital-signs"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "8462-4"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+        },
+        "effectiveDateTime": "2026-05-10T07:00:00Z",
+        "valueQuantity": {
+          "value": 82,
+          "unit": "mm[Hg]"
+        }
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:dbc293d3-74b2-42bb-ad15-f0d1af71fd75",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "vital-signs"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "9279-1"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+        },
+        "effectiveDateTime": "2026-05-10T07:00:00Z",
+        "valueQuantity": {
+          "value": 22,
+          "unit": "/min"
+        }
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:e8b6b409-808e-40dd-bfdf-161bd83292c9",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "vital-signs"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "8310-5"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+        },
+        "effectiveDateTime": "2026-05-10T07:00:00Z",
+        "valueQuantity": {
+          "value": 38.6,
+          "unit": "Cel"
+        }
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:9e39fc99-c196-417f-b987-5531162867da",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "vital-signs"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "9269-2"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+        },
+        "effectiveDateTime": "2026-05-10T07:00:00Z",
+        "valueQuantity": {
+          "value": 13,
+          "unit": "{score}"
+        }
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c9292c99-4fff-4c25-8300-e836dee4c04d",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "6690-2"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+        },
+        "effectiveDateTime": "2026-05-10T06:00:00Z",
+        "valueQuantity": {
+          "value": 13.8,
+          "unit": "10*3/uL"
+        }
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:3158b9c6-049a-4dd7-9667-70a2e2239eb7",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "32693-4"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+        },
+        "effectiveDateTime": "2026-05-10T07:10:00Z",
+        "valueQuantity": {
+          "value": 2.4,
+          "unit": "mmol/L"
+        }
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:b1603f78-d7a6-40a9-8572-8d0d237988da",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2160-0"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+        },
+        "effectiveDateTime": "2026-05-10T06:00:00Z",
+        "valueQuantity": {
+          "value": 1.1,
+          "unit": "mg/dL"
+        }
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:0e55c7cc-1f98-4b7f-a32e-a8163cfe866f",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "vital-signs"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "29463-7"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+        },
+        "effectiveDateTime": "2026-05-06T08:00:00Z",
+        "valueQuantity": {
+          "value": 82,
+          "unit": "kg"
+        }
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:f19d5fb8-343b-49e8-af00-2c0b67aaf5b3",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "33914-3"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+        },
+        "effectiveDateTime": "2026-05-10T06:00:00Z",
+        "valueQuantity": {
+          "value": 68,
+          "unit": "mL/min/1.73m2"
+        }
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:4b53d284-acfb-4a41-a339-fb2fa563962a",
+      "resource": {
+        "resourceType": "Condition",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "code": "active"
+            }
+          ]
+        },
+        "code": {
+          "text": "Foley catheter \u2014 post-operative",
+          "coding": []
+        },
+        "subject": {
+          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+        },
+        "onsetDateTime": "2026-05-06T09:00:00Z"
+      },
+      "request": {
+        "method": "POST",
+        "url": "Condition"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:6e9b4335-506f-4a7f-a6a8-bb2bb1f4bd1a",
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "code": "active"
+            }
+          ]
+        },
+        "criticality": "low",
+        "code": {
+          "coding": [
+            {
+              "display": "Penicillin"
+            }
+          ],
+          "text": "Penicillin \u2014 rash only"
+        },
+        "patient": {
+          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+        },
+        "reaction": [
+          {
+            "severity": "mild",
+            "manifestation": [
+              {
+                "text": "rash"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "AllergyIntolerance"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:58f20ff1-994f-4bf5-8370-96358d014bbc",
+      "resource": {
+        "resourceType": "DocumentReference",
+        "status": "current",
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "clinical-note"
+              }
+            ]
+          }
+        ],
+        "type": {
+          "coding": [
+            {
+              "display": "Nursing Note"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+        },
+        "date": "2026-05-10T07:15:00Z",
+        "content": [
+          {
+            "attachment": {
+              "contentType": "text/plain",
+              "title": "POD 4 Nursing Note \u2014 mental status change",
+              "data": "TlVSU0lORyBOT1RFIOKAlCBQT0QgNCBtb3JuaW5nIHJvdW5kcwoKUGF0aWVudCBpcyBhIDc4LXllYXItb2xkIG1hbGUsIHBvc3Qtb3AgZGF5IDQgZnJvbSBlbGVjdGl2ZSByaWdodCB0b3RhbCBoaXAgYXJ0aHJvcGxhc3R5LiBGb2xleSBjYXRoZXRlciBwbGFjZWQgaW50cmEtb3BlcmF0aXZlbHksIHN0aWxsIGluIHBsYWNlLgoKT3Zlcm5pZ2h0IG9ic2VydmF0aW9uOiBQYXRpZW50IGFwcGVhcnMgY29uZnVzZWQsIG1vcmUgbGV0aGFyZ2ljIHRoYW4gcHJpb3IgMjQgaG91cnMuIEZhbWlseSBhdCBiZWRzaWRlIHJlcG9ydHMgaGUgaXMgIm5vdCBoaW1zZWxmIiDigJQgc2xvd2VyIHRvIHJlc3BvbmQsIGNhbGxzIHRoZW0gYnkgd3JvbmcgbmFtZXMuCgpVcmluZSBvdXRwdXQ6IDI4MCBtTCBvdmVyIGxhc3QgOCBob3VycywgY2xvdWR5IHVyaW5lIHdpdGggdmlzaWJsZSBzZWRpbWVudCBpbiBmb2xleSBjb2xsZWN0aW9uIGJhZy4gRm9sZXkgcGF0ZW50LgoKVml0YWxzIHRyZW5kaW5nIHVwOiBIUiAxMDIgKHdhcyA3NiksIEJQIDEzOC84MiAoc3RhYmxlKSwgVGVtcCAzOC42wrBDIChuZXcpLCBSUiAyMiAod2FzIDE2KS4gU3BPMiA5NiUgUkEuCgpNb3N0IHJlY2VudCBsYWJzIChkcmF3biBhdCAwNjowMCk6IFdCQyAxMy44IEsvdUwgKHdhcyA5LjIgeWVzdGVyZGF5IG1vcm5pbmcpLCBsYWN0YXRlIDIuNCBtbW9sL0wgKG1pbGRseSBlbGV2YXRlZCksIGNyZWF0aW5pbmUgc3RhYmxlIGF0IDEuMS4KCkNPTkNFUk46IE5ldyBhbHRlcmVkIG1lbnRhbCBzdGF0dXMgKyBsZXVrb2N5dG9zaXMgdHJlbmQgKyBjbG91ZHkgdXJpbmUgaW4gYSBGb2xleS1hc3NvY2lhdGVkIHBhdGllbnQuIENvbmNlcm4gZm9yIGNhdGhldGVyLWFzc29jaWF0ZWQgVVRJIGV2b2x2aW5nIHRvIHVyb3NlcHNpcy4gTm90aWZpZWQgaW50ZW5zaXZpc3Qgb24gY2FsbC4gRm9sZXkgcmVtb3ZhbCByZWNvbW1lbmRlZDsgd2lsbCBvYnRhaW4gdXJpbmUgY3VsdHVyZSBhbmQgY29uc2lkZXIgYnJvYWQtc3BlY3RydW0gY292ZXJhZ2UuCg=="
+            }
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "DocumentReference"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:b0466cc0-35e4-441f-b868-1d401241e03e",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "status": "preliminary",
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "LAB",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "display": "Urinalysis"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+        },
+        "effectiveDateTime": "2026-05-10T06:30:00Z",
+        "conclusion": "Cloudy urine with leukocyte esterase positive, nitrites positive, many bacteria. Suggestive of urinary tract infection."
+      },
+      "request": {
+        "method": "POST",
+        "url": "DiagnosticReport"
+      }
+    }
+  ]
+}

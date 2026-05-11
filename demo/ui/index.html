@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SepsisGuard — SEP-1 Bundle Co-Pilot</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --panel: #1e293b;
+    --border: #334155;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --accent: #dc2626;
+    --accent-soft: #7f1d1d;
+    --green: #22c55e;
+    --amber: #f59e0b;
+    --blue: #3b82f6;
+    --purple: #a855f7;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  a { color: var(--blue); }
+  header {
+    padding: 28px 32px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 16px;
+  }
+  .logo {
+    width: 44px; height: 44px;
+    background: var(--accent);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 800; font-size: 18px;
+  }
+  h1 { margin: 0; font-size: 22px; letter-spacing: -0.02em; }
+  .tagline { color: var(--muted); font-size: 14px; margin-top: 4px; }
+  .scope { margin-left: auto; color: var(--muted); font-family: var(--mono); font-size: 12px; }
+  main { display: grid; grid-template-columns: 280px 1fr 320px; gap: 0; min-height: calc(100vh - 100px); }
+  @media (max-width: 1024px) { main { grid-template-columns: 1fr; } }
+
+  /* Left column — scenarios */
+  .scenarios { background: var(--panel); border-right: 1px solid var(--border); padding: 20px; }
+  .scenarios h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin: 0 0 16px; }
+  .scenario {
+    border: 1px solid var(--border); border-radius: 8px; padding: 14px;
+    cursor: pointer; margin-bottom: 10px;
+    transition: all 0.15s; background: var(--bg);
+  }
+  .scenario:hover { border-color: var(--blue); }
+  .scenario.active { border-color: var(--accent); background: var(--accent-soft); }
+  .scenario-title { font-weight: 600; font-size: 14px; }
+  .scenario-sub { color: var(--muted); font-size: 12px; margin-top: 4px; }
+
+  /* Middle column — trajectory + tools */
+  .trajectory { padding: 24px 28px; overflow-y: auto; max-height: calc(100vh - 100px); }
+  .prompt {
+    background: var(--panel); border-left: 3px solid var(--blue);
+    padding: 12px 16px; border-radius: 4px; font-family: var(--mono);
+    font-size: 13px; color: var(--text); margin-bottom: 24px;
+  }
+  .prompt::before { content: "Clinician prompt → "; color: var(--muted); }
+  .step {
+    border: 1px solid var(--border); border-radius: 8px;
+    padding: 14px 16px; margin-bottom: 12px;
+    background: var(--panel); opacity: 0;
+    animation: slideIn 0.4s forwards;
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .step-head { display: flex; align-items: center; gap: 10px; }
+  .step-num {
+    width: 24px; height: 24px; background: var(--accent);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+  }
+  .step-name { font-family: var(--mono); font-weight: 600; }
+  .step-time { margin-left: auto; color: var(--muted); font-size: 12px; font-family: var(--mono); }
+  .step-summary { color: var(--muted); font-size: 13px; margin-top: 8px; padding-left: 34px; font-family: var(--mono); }
+  .step.is-llm .step-num { background: var(--purple); }
+  .step.is-write .step-num { background: var(--green); }
+
+  /* Right column — final summary */
+  .summary { background: var(--panel); border-left: 1px solid var(--border); padding: 24px; overflow-y: auto; max-height: calc(100vh - 100px); }
+  .summary h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin: 0 0 12px; }
+  .badge { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 700; font-family: var(--mono); margin-right: 6px; }
+  .badge-severe { background: var(--accent); color: white; }
+  .badge-shock { background: #991b1b; color: white; }
+  .badge-ontrack { background: var(--green); color: #052e16; }
+  .badge-atrisk { background: var(--amber); color: #422006; }
+  .badge-noncompliant { background: var(--accent); color: white; }
+  .kv { display: grid; grid-template-columns: 100px 1fr; gap: 6px; font-size: 13px; margin-top: 12px; }
+  .kv dt { color: var(--muted); font-family: var(--mono); }
+  .kv dd { margin: 0; }
+  .elements { margin-top: 14px; font-family: var(--mono); font-size: 12px; }
+  .el { display: flex; gap: 8px; padding: 4px 0; align-items: baseline; }
+  .el .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .el.met .dot { background: var(--green); }
+  .el.scheduled .dot { background: var(--blue); }
+  .el.not_yet_required .dot { background: var(--muted); }
+  .el.non_compliant .dot { background: var(--accent); }
+  .el-name { flex: 1; }
+  .el-status { color: var(--muted); }
+  .score-banner {
+    margin-top: 18px; padding: 16px;
+    border: 1px solid var(--border); border-radius: 8px;
+    text-align: center; background: var(--bg);
+  }
+  .score-banner .num { font-size: 36px; font-weight: 800; color: var(--green); }
+  .score-banner .num.medium { color: var(--amber); }
+  .score-banner .num.low { color: var(--accent); }
+  .score-banner .label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+  .audit { margin-top: 16px; font-size: 12px; }
+  .audit li { margin-bottom: 4px; color: var(--muted); }
+  .empty { color: var(--muted); font-style: italic; padding: 32px 0; text-align: center; }
+
+  .controls { padding: 16px 20px; border-top: 1px solid var(--border); background: var(--panel); display: flex; gap: 12px; align-items: center; }
+  .controls button {
+    background: var(--accent); color: white; border: none;
+    padding: 10px 16px; border-radius: 6px; cursor: pointer;
+    font-weight: 600; font-size: 13px; font-family: inherit;
+  }
+  .controls button:hover { background: #ef4444; }
+  .controls button:disabled { background: var(--border); cursor: not-allowed; }
+  .controls .speed { color: var(--muted); font-size: 12px; margin-left: auto; }
+  .controls select { background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 6px 8px; border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">SG</div>
+  <div>
+    <h1>SepsisGuard</h1>
+    <div class="tagline">CMS SEP-1 bundle co-pilot · MCP + A2A v1 · FHIR R4</div>
+  </div>
+  <div class="scope">POST /mcp · 7 tools · 15 SMART scopes</div>
+</header>
+
+<main>
+  <aside class="scenarios">
+    <h2>Scenarios</h2>
+    <div id="scenario-list"></div>
+    <h2 style="margin-top:24px">About</h2>
+    <p style="font-size:12px;color:var(--muted);line-height:1.55">
+      Three deterministic playback recordings of SepsisGuard executing the
+      CMS SEP-1 bundle on synthetic ICU patients. The same tools, FHIR
+      resources, and Claude orchestrator that ship in the live MCP server.
+    </p>
+  </aside>
+
+  <section>
+    <div class="trajectory" id="trajectory">
+      <div class="prompt" id="prompt-display">Select a scenario to begin.</div>
+      <div id="steps"></div>
+    </div>
+    <div class="controls">
+      <button id="play-btn">▶ Play scenario</button>
+      <button id="reset-btn">↺ Reset</button>
+      <span class="speed">
+        Speed:
+        <select id="speed">
+          <option value="600">Slow</option>
+          <option value="320" selected>Normal</option>
+          <option value="120">Fast</option>
+        </select>
+      </span>
+    </div>
+  </section>
+
+  <aside class="summary" id="summary">
+    <h2>Agent Output</h2>
+    <div class="empty" id="summary-empty">Pick a scenario and press Play.</div>
+    <div id="summary-content" style="display:none"></div>
+  </aside>
+</main>
+
+<script>
+const SCENARIOS = {
+  cap: {
+    id: "cap_severe_sepsis",
+    title: "CAP → severe sepsis",
+    sub: "67F · Pneumonia · canonical path",
+    prompt: "Run sepsis bundle execution for this patient — recent vitals show concerning trends and the labs just resulted.",
+    classification: "severe_sepsis",
+    timezero: "2026-05-10T22:25:00Z",
+    source: "pneumonia",
+    overall: "on_track",
+    completed: 1, total: 6,
+    abx: "Cefepime 2 g IV q8h + Vancomycin 25–30 mg/kg load → AUC-guided",
+    score: 0.78,
+    elements: [
+      ["lactate_initial", "met", "3.2 mmol/L @ T+0"],
+      ["blood_cultures", "scheduled", "due T+3h"],
+      ["broad_spectrum_antibiotics", "scheduled", "due T+3h"],
+      ["fluid_resuscitation", "scheduled", "0/2040 mL"],
+      ["vasopressors", "not_yet_required", "no persistent hypotension"],
+      ["repeat_lactate", "scheduled", "due T+6h"],
+      ["volume_reassessment", "scheduled", "due T+6h"],
+    ],
+    concerns: [
+      "Document SIRS values w/ timestamps (temp/HR/RR/WBC).",
+      "Blood cx must precede MedicationAdministration timestamps.",
+      "Cefepime + vanc — eGFR 55 borderline; pharmacist oversight.",
+    ],
+    steps: [
+      {n:"screen_sepsis_signals", llm:false, dt:19,  s:"recommendation=proceed_to_adjudication · SIRS 4/4 · 4 organ markers"},
+      {n:"confirm_sepsis_diagnosis", llm:true, dt:3890, s:"classification=severe_sepsis · time_zero set · high confidence"},
+      {n:"score_bundle_compliance", llm:false, dt:17, s:"overall=on_track · 1/6 met · 67 min in"},
+      {n:"recommend_antibiotic", llm:true, dt:13519, s:"cefepime + vancomycin · PCN cross-reactivity rationale"},
+      {n:"drive_bundle_element", llm:false, dt:15, write:true, s:"Task created — blood_cultures (RN, deadline T+3h)"},
+      {n:"drive_bundle_element", llm:false, dt:14, write:true, s:"Task created — broad_spectrum_antibiotics (urgent)"},
+      {n:"drive_bundle_element", llm:false, dt:13, write:true, s:"Task created — fluid_resuscitation (urgent, 30 mL/kg)"},
+      {n:"drive_bundle_element", llm:false, dt:14, write:true, s:"Task created — repeat_lactate (T+6h)"},
+      {n:"drive_bundle_element", llm:false, dt:14, write:true, s:"Task created — volume_reassessment"},
+      {n:"notify_care_team", llm:false, dt:21, write:true, s:"Communication sent · advisory · 4 recipients"},
+      {n:"draft_sep1_documentation", llm:true, dt:37621, s:"CMS abstractor score predicted 0.78 · 6 concerns"},
+    ],
+  },
+  uti: {
+    id: "uti_late_onset",
+    title: "Hospital UTI",
+    sub: "78M · POD4 ortho · free-text adjudication",
+    prompt: "Patient is POD 4 from ortho and the night nurse just escalated mental status change. Run sepsis bundle execution.",
+    classification: "severe_sepsis",
+    timezero: "2026-05-10T22:02:00Z",
+    source: "urinary",
+    overall: "on_track",
+    completed: 1, total: 6,
+    abx: "Cefepime 2 g IV q8h (PCN allergy — non-anaphylactic, ≤2% cross-reactivity) + Vancomycin AUC-guided",
+    score: 0.72,
+    elements: [
+      ["lactate_initial", "met", "2.4 mmol/L @ T+0"],
+      ["blood_cultures", "scheduled", "must precede abx"],
+      ["broad_spectrum_antibiotics", "scheduled", "due T+3h"],
+      ["fluid_resuscitation", "scheduled", "0/2460 mL"],
+      ["vasopressors", "not_yet_required", ""],
+      ["repeat_lactate", "scheduled", "due T+6h"],
+      ["volume_reassessment", "scheduled", ""],
+    ],
+    concerns: [
+      "CAUTI source inferred from free-text — confirm w/ urine cx.",
+      "Abx + cx before T+3h; cx must precede first abx admin.",
+      "Volume reassessment must specify modality (PLR / UOP / echo).",
+    ],
+    steps: [
+      {n:"screen_sepsis_signals", llm:false, dt:22, s:"recommendation=proceed_to_adjudication · 3 free-text triggers"},
+      {n:"confirm_sepsis_diagnosis", llm:true, dt:4521, s:"classification=severe_sepsis · source=urinary (from nursing note + UA)"},
+      {n:"score_bundle_compliance", llm:false, dt:19, s:"overall=on_track · 1/6 met"},
+      {n:"recommend_antibiotic", llm:true, dt:15102, s:"cefepime substituted for pip-tazo (PCN allergy) · cross-reactivity cited"},
+      {n:"drive_bundle_element", llm:false, dt:18, write:true, s:"Task — blood_cultures"},
+      {n:"drive_bundle_element", llm:false, dt:17, write:true, s:"Task — broad_spectrum_antibiotics (urgent)"},
+      {n:"drive_bundle_element", llm:false, dt:17, write:true, s:"Task — fluid_resuscitation"},
+      {n:"drive_bundle_element", llm:false, dt:20, write:true, s:"Task — repeat_lactate"},
+      {n:"drive_bundle_element", llm:false, dt:20, write:true, s:"Task — volume_reassessment"},
+      {n:"notify_care_team", llm:false, dt:21, write:true, s:"Communication sent · urgent · 4 recipients"},
+      {n:"draft_sep1_documentation", llm:true, dt:40727, s:"CMS abstractor score predicted 0.72 · 5 concerns"},
+    ],
+  },
+  iab: {
+    id: "intra_abdominal_septic_shock",
+    title: "Intra-abdominal septic shock",
+    sub: "54M · perforated viscus · shock",
+    prompt: "ED just called — this patient has shock vitals and an acute abdomen. Run sepsis bundle execution aggressively.",
+    classification: "septic_shock",
+    timezero: "2026-05-10T18:05:00Z",
+    source: "intra_abdominal",
+    overall: "at_risk",
+    completed: 1, total: 7,
+    abx: "Piperacillin-tazobactam 4.5 g IV (extended infusion) + Vancomycin AUC-guided + Metronidazole 500 mg IV q8h (anaerobic coverage)",
+    score: 0.81,
+    elements: [
+      ["lactate_initial", "met", "5.8 mmol/L @ T+0"],
+      ["blood_cultures", "scheduled", "STAT"],
+      ["broad_spectrum_antibiotics", "scheduled", "STAT"],
+      ["fluid_resuscitation", "scheduled", "0/2340 mL (30 mL/kg)"],
+      ["vasopressors", "scheduled", "MAP 55 — likely needed post-bolus"],
+      ["repeat_lactate", "scheduled", "due T+4h"],
+      ["volume_reassessment", "scheduled", "post-bolus"],
+    ],
+    concerns: [
+      "MAP 55 + lactate 5.8 = septic shock — bundle clock is 3hr from Time Zero.",
+      "Surgical source control — STAT general surgery consult required.",
+      "Document IBW vs ABW choice for 30 mL/kg (chart 2340 mL math).",
+      "Anaerobic coverage must be on board within 3hr window.",
+    ],
+    steps: [
+      {n:"screen_sepsis_signals", llm:false, dt:24, s:"recommendation=proceed_to_adjudication · SIRS 4/4 · 5 organ markers"},
+      {n:"confirm_sepsis_diagnosis", llm:true, dt:4012, s:"classification=septic_shock · lactate ≥4 + MAP <65"},
+      {n:"score_bundle_compliance", llm:false, dt:18, s:"overall=at_risk · 1/7 met · vasopressors flagged"},
+      {n:"recommend_antibiotic", llm:true, dt:16201, s:"pip-tazo + vanc + metronidazole · anaerobic coverage"},
+      {n:"drive_bundle_element", llm:false, dt:16, write:true, s:"Task — blood_cultures (STAT)"},
+      {n:"drive_bundle_element", llm:false, dt:16, write:true, s:"Task — broad_spectrum_antibiotics (STAT)"},
+      {n:"drive_bundle_element", llm:false, dt:16, write:true, s:"Task — fluid_resuscitation (urgent, 2340 mL)"},
+      {n:"drive_bundle_element", llm:false, dt:17, write:true, s:"Task — vasopressors (anticipated)"},
+      {n:"drive_bundle_element", llm:false, dt:15, write:true, s:"Task — repeat_lactate (T+4h)"},
+      {n:"drive_bundle_element", llm:false, dt:15, write:true, s:"Task — volume_reassessment"},
+      {n:"notify_care_team", llm:false, dt:22, write:true, s:"Communication sent · STAT · surgery + intensivist + pharmacist"},
+      {n:"draft_sep1_documentation", llm:true, dt:42013, s:"CMS abstractor score predicted 0.81 · shock-specific note"},
+    ],
+  },
+};
+
+let activeId = "cap";
+let playing = false;
+let stopFlag = false;
+
+function renderScenarioList() {
+  const list = document.getElementById("scenario-list");
+  list.innerHTML = "";
+  for (const [key, sc] of Object.entries(SCENARIOS)) {
+    const el = document.createElement("div");
+    el.className = "scenario" + (key === activeId ? " active" : "");
+    el.innerHTML = `<div class="scenario-title">${sc.title}</div><div class="scenario-sub">${sc.sub}</div>`;
+    el.onclick = () => { activeId = key; resetView(); renderScenarioList(); };
+    list.appendChild(el);
+  }
+  document.getElementById("prompt-display").textContent = SCENARIOS[activeId].prompt;
+}
+
+function resetView() {
+  stopFlag = true;
+  document.getElementById("steps").innerHTML = "";
+  document.getElementById("summary-empty").style.display = "block";
+  document.getElementById("summary-content").style.display = "none";
+  document.getElementById("prompt-display").textContent = SCENARIOS[activeId].prompt;
+}
+
+function renderSummary(sc) {
+  const empty = document.getElementById("summary-empty");
+  const content = document.getElementById("summary-content");
+  empty.style.display = "none";
+  content.style.display = "block";
+
+  const overallBadge = {
+    on_track: "badge-ontrack",
+    at_risk: "badge-atrisk",
+    non_compliant: "badge-noncompliant",
+  }[sc.overall] || "badge-noncompliant";
+
+  const cls = sc.classification === "septic_shock" ? "badge-shock" : "badge-severe";
+
+  const scoreClass = sc.score >= 0.85 ? "" : sc.score >= 0.7 ? "medium" : "low";
+
+  content.innerHTML = `
+    <div>
+      <span class="badge ${cls}">${sc.classification.replace("_", " ")}</span>
+      <span class="badge ${overallBadge}">${sc.overall.replace("_", " ")}</span>
+    </div>
+    <dl class="kv">
+      <dt>Time Zero</dt><dd style="font-family:var(--mono);font-size:12px">${sc.timezero}</dd>
+      <dt>Source</dt><dd>${sc.source}</dd>
+      <dt>Bundle</dt><dd>${sc.completed}/${sc.total} met</dd>
+    </dl>
+    <h2 style="margin-top:18px">Bundle elements</h2>
+    <div class="elements">
+      ${sc.elements.map(([n, st, ext]) => `
+        <div class="el ${st}">
+          <div class="dot"></div>
+          <div class="el-name">${n}</div>
+          <div class="el-status">${st}${ext ? " · " + ext : ""}</div>
+        </div>`).join("")}
+    </div>
+    <h2 style="margin-top:18px">Antibiotic — DRAFT</h2>
+    <div style="font-size:13px;line-height:1.5">${sc.abx}</div>
+    <div style="color:var(--muted);font-size:11px;margin-top:6px">⚠ Needs clinician sign-off</div>
+    <div class="score-banner">
+      <div class="num ${scoreClass}">${sc.score.toFixed(2)}</div>
+      <div class="label">Predicted CMS abstractor score</div>
+    </div>
+    <h2 style="margin-top:18px">Audit concerns</h2>
+    <ul class="audit">${sc.concerns.map(c => `<li>${c}</li>`).join("")}</ul>
+  `;
+}
+
+async function playScenario() {
+  if (playing) return;
+  playing = true;
+  stopFlag = false;
+  resetView();
+  stopFlag = false;
+  const sc = SCENARIOS[activeId];
+  const steps = document.getElementById("steps");
+  const speed = parseInt(document.getElementById("speed").value, 10);
+
+  for (let i = 0; i < sc.steps.length; i++) {
+    if (stopFlag) break;
+    const s = sc.steps[i];
+    const el = document.createElement("div");
+    el.className = "step" + (s.llm ? " is-llm" : "") + (s.write ? " is-write" : "");
+    el.innerHTML = `
+      <div class="step-head">
+        <div class="step-num">${i + 1}</div>
+        <div class="step-name">${s.n}</div>
+        <div class="step-time">${s.dt}ms${s.llm ? " · LLM" : ""}${s.write ? " · WRITE" : ""}</div>
+      </div>
+      <div class="step-summary">→ ${s.s}</div>
+    `;
+    steps.appendChild(el);
+    el.scrollIntoView({ behavior: "smooth", block: "end" });
+    await new Promise(r => setTimeout(r, speed));
+  }
+  if (!stopFlag) renderSummary(sc);
+  playing = false;
+}
+
+document.getElementById("play-btn").onclick = playScenario;
+document.getElementById("reset-btn").onclick = resetView;
+renderScenarioList();
+</script>
+
+</body>
+</html>
