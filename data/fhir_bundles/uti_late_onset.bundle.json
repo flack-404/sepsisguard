@@ -3,9 +3,18 @@
   "type": "transaction",
   "entry": [
     {
-      "fullUrl": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb",
+      "fullUrl": "urn:uuid:1d703c49-335b-46fd-a49b-fc6f98773215",
       "resource": {
         "resourceType": "Patient",
+        "name": [
+          {
+            "use": "official",
+            "family": "Thompson",
+            "given": [
+              "Harold"
+            ]
+          }
+        ],
         "gender": "male",
         "birthDate": "1948-09-22"
       },
@@ -15,7 +24,7 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:222557aa-d4ad-4066-b507-76355d873049",
+      "fullUrl": "urn:uuid:d3f6810e-99a1-464e-ae57-8b6ed8267457",
       "resource": {
         "resourceType": "Encounter",
         "status": "in-progress",
@@ -24,10 +33,10 @@
           "code": "IMP"
         },
         "subject": {
-          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+          "reference": "urn:uuid:1d703c49-335b-46fd-a49b-fc6f98773215"
         },
         "period": {
-          "start": "2026-05-06T08:00:00Z"
+          "start": "2026-05-07T04:59:52.013323+00:00"
         }
       },
       "request": {
@@ -36,7 +45,7 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:a4047825-8728-42a7-adc2-1075d5be8a01",
+      "fullUrl": "urn:uuid:050752d5-b927-477b-995f-436dec3baf32",
       "resource": {
         "resourceType": "Observation",
         "status": "final",
@@ -58,9 +67,9 @@
           ]
         },
         "subject": {
-          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+          "reference": "urn:uuid:1d703c49-335b-46fd-a49b-fc6f98773215"
         },
-        "effectiveDateTime": "2026-05-10T07:00:00Z",
+        "effectiveDateTime": "2026-05-11T03:59:52.013323+00:00",
         "valueQuantity": {
           "value": 102,
           "unit": "/min"
@@ -72,7 +81,7 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:3a1b386d-332a-49f5-ab9c-0a1abd0369e1",
+      "fullUrl": "urn:uuid:d8ccdbd6-e210-483f-ad41-08b223ce8eb5",
       "resource": {
         "resourceType": "Observation",
         "status": "final",
@@ -94,9 +103,9 @@
           ]
         },
         "subject": {
-          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+          "reference": "urn:uuid:1d703c49-335b-46fd-a49b-fc6f98773215"
         },
-        "effectiveDateTime": "2026-05-10T07:00:00Z",
+        "effectiveDateTime": "2026-05-11T03:59:52.013323+00:00",
         "valueQuantity": {
           "value": 138,
           "unit": "mm[Hg]"
@@ -108,7 +117,7 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:3b285ce6-0cff-47d0-9402-f9c999323898",
+      "fullUrl": "urn:uuid:b1fcb089-0580-42ed-8c12-7604fc204d02",
       "resource": {
         "resourceType": "Observation",
         "status": "final",
@@ -130,9 +139,9 @@
           ]
         },
         "subject": {
-          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+          "reference": "urn:uuid:1d703c49-335b-46fd-a49b-fc6f98773215"
         },
-        "effectiveDateTime": "2026-05-10T07:00:00Z",
+        "effectiveDateTime": "2026-05-11T03:59:52.013323+00:00",
         "valueQuantity": {
           "value": 82,
           "unit": "mm[Hg]"
@@ -144,7 +153,7 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:dbc293d3-74b2-42bb-ad15-f0d1af71fd75",
+      "fullUrl": "urn:uuid:ccd5079b-cd4e-4f44-a2bf-50d8df57bfb5",
       "resource": {
         "resourceType": "Observation",
         "status": "final",
@@ -166,9 +175,9 @@
           ]
         },
         "subject": {
-          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+          "reference": "urn:uuid:1d703c49-335b-46fd-a49b-fc6f98773215"
         },
-        "effectiveDateTime": "2026-05-10T07:00:00Z",
+        "effectiveDateTime": "2026-05-11T03:59:52.013323+00:00",
         "valueQuantity": {
           "value": 22,
           "unit": "/min"
@@ -180,7 +189,7 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:e8b6b409-808e-40dd-bfdf-161bd83292c9",
+      "fullUrl": "urn:uuid:6bc32062-2541-4030-9c61-d238fd39c2b1",
       "resource": {
         "resourceType": "Observation",
         "status": "final",
@@ -202,9 +211,9 @@
           ]
         },
         "subject": {
-          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+          "reference": "urn:uuid:1d703c49-335b-46fd-a49b-fc6f98773215"
         },
-        "effectiveDateTime": "2026-05-10T07:00:00Z",
+        "effectiveDateTime": "2026-05-11T03:59:52.013323+00:00",
         "valueQuantity": {
           "value": 38.6,
           "unit": "Cel"
@@ -216,7 +225,7 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:9e39fc99-c196-417f-b987-5531162867da",
+      "fullUrl": "urn:uuid:a7c73020-a237-431d-9db7-15584c8cc974",
       "resource": {
         "resourceType": "Observation",
         "status": "final",
@@ -238,9 +247,9 @@
           ]
         },
         "subject": {
-          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+          "reference": "urn:uuid:1d703c49-335b-46fd-a49b-fc6f98773215"
         },
-        "effectiveDateTime": "2026-05-10T07:00:00Z",
+        "effectiveDateTime": "2026-05-11T03:59:52.013323+00:00",
         "valueQuantity": {
           "value": 13,
           "unit": "{score}"
@@ -252,7 +261,7 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:c9292c99-4fff-4c25-8300-e836dee4c04d",
+      "fullUrl": "urn:uuid:7da91c1b-7bba-469d-a1ad-deb76b10fe0e",
       "resource": {
         "resourceType": "Observation",
         "status": "final",
@@ -274,9 +283,9 @@
           ]
         },
         "subject": {
-          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+          "reference": "urn:uuid:1d703c49-335b-46fd-a49b-fc6f98773215"
         },
-        "effectiveDateTime": "2026-05-10T06:00:00Z",
+        "effectiveDateTime": "2026-05-11T02:59:52.013323+00:00",
         "valueQuantity": {
           "value": 13.8,
           "unit": "10*3/uL"
@@ -288,7 +297,7 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:3158b9c6-049a-4dd7-9667-70a2e2239eb7",
+      "fullUrl": "urn:uuid:75ff8df8-dc5d-4d26-b801-f2284af19552",
       "resource": {
         "resourceType": "Observation",
         "status": "final",
@@ -310,9 +319,9 @@
           ]
         },
         "subject": {
-          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+          "reference": "urn:uuid:1d703c49-335b-46fd-a49b-fc6f98773215"
         },
-        "effectiveDateTime": "2026-05-10T07:10:00Z",
+        "effectiveDateTime": "2026-05-11T04:09:52.013323+00:00",
         "valueQuantity": {
           "value": 2.4,
           "unit": "mmol/L"
@@ -324,7 +333,7 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:b1603f78-d7a6-40a9-8572-8d0d237988da",
+      "fullUrl": "urn:uuid:3170725f-e1b8-4d37-9f1c-3096178178e2",
       "resource": {
         "resourceType": "Observation",
         "status": "final",
@@ -346,9 +355,9 @@
           ]
         },
         "subject": {
-          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+          "reference": "urn:uuid:1d703c49-335b-46fd-a49b-fc6f98773215"
         },
-        "effectiveDateTime": "2026-05-10T06:00:00Z",
+        "effectiveDateTime": "2026-05-11T02:59:52.013323+00:00",
         "valueQuantity": {
           "value": 1.1,
           "unit": "mg/dL"
@@ -360,7 +369,7 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:0e55c7cc-1f98-4b7f-a32e-a8163cfe866f",
+      "fullUrl": "urn:uuid:29c8573b-1376-4ad8-8bde-b2ad128f8282",
       "resource": {
         "resourceType": "Observation",
         "status": "final",
@@ -382,9 +391,9 @@
           ]
         },
         "subject": {
-          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+          "reference": "urn:uuid:1d703c49-335b-46fd-a49b-fc6f98773215"
         },
-        "effectiveDateTime": "2026-05-06T08:00:00Z",
+        "effectiveDateTime": "2026-05-07T04:59:52.013323+00:00",
         "valueQuantity": {
           "value": 82,
           "unit": "kg"
@@ -396,7 +405,7 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:f19d5fb8-343b-49e8-af00-2c0b67aaf5b3",
+      "fullUrl": "urn:uuid:ee914b04-9149-475f-b2d3-ebf78b8ed4e1",
       "resource": {
         "resourceType": "Observation",
         "status": "final",
@@ -418,9 +427,9 @@
           ]
         },
         "subject": {
-          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+          "reference": "urn:uuid:1d703c49-335b-46fd-a49b-fc6f98773215"
         },
-        "effectiveDateTime": "2026-05-10T06:00:00Z",
+        "effectiveDateTime": "2026-05-11T02:59:52.013323+00:00",
         "valueQuantity": {
           "value": 68,
           "unit": "mL/min/1.73m2"
@@ -432,7 +441,7 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:4b53d284-acfb-4a41-a339-fb2fa563962a",
+      "fullUrl": "urn:uuid:49e4ed0d-fff1-4271-9384-0659e66a0810",
       "resource": {
         "resourceType": "Condition",
         "clinicalStatus": {
@@ -443,13 +452,12 @@
           ]
         },
         "code": {
-          "text": "Foley catheter \u2014 post-operative",
-          "coding": []
+          "text": "Foley catheter \u2014 post-operative"
         },
         "subject": {
-          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+          "reference": "urn:uuid:1d703c49-335b-46fd-a49b-fc6f98773215"
         },
-        "onsetDateTime": "2026-05-06T09:00:00Z"
+        "onsetDateTime": "2026-05-07T05:59:52.013323+00:00"
       },
       "request": {
         "method": "POST",
@@ -457,7 +465,7 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:6e9b4335-506f-4a7f-a6a8-bb2bb1f4bd1a",
+      "fullUrl": "urn:uuid:55c22286-8d73-4c0a-9c25-66202dc9b2f4",
       "resource": {
         "resourceType": "AllergyIntolerance",
         "clinicalStatus": {
@@ -477,7 +485,7 @@
           "text": "Penicillin \u2014 rash only"
         },
         "patient": {
-          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+          "reference": "urn:uuid:1d703c49-335b-46fd-a49b-fc6f98773215"
         },
         "reaction": [
           {
@@ -496,7 +504,7 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:58f20ff1-994f-4bf5-8370-96358d014bbc",
+      "fullUrl": "urn:uuid:21b0317a-8fc0-45ea-b159-5fa5128eaf5f",
       "resource": {
         "resourceType": "DocumentReference",
         "status": "current",
@@ -517,9 +525,9 @@
           ]
         },
         "subject": {
-          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+          "reference": "urn:uuid:1d703c49-335b-46fd-a49b-fc6f98773215"
         },
-        "date": "2026-05-10T07:15:00Z",
+        "date": "2026-05-11T04:14:52.013323+00:00",
         "content": [
           {
             "attachment": {
@@ -536,7 +544,7 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:b0466cc0-35e4-441f-b868-1d401241e03e",
+      "fullUrl": "urn:uuid:b7957ee6-e3a8-49ab-95cb-cb1432361241",
       "resource": {
         "resourceType": "DiagnosticReport",
         "status": "preliminary",
@@ -558,9 +566,9 @@
           ]
         },
         "subject": {
-          "reference": "urn:uuid:18635b68-b2f7-4dd9-a548-23031766d6fb"
+          "reference": "urn:uuid:1d703c49-335b-46fd-a49b-fc6f98773215"
         },
-        "effectiveDateTime": "2026-05-10T06:30:00Z",
+        "effectiveDateTime": "2026-05-11T03:29:52.013323+00:00",
         "conclusion": "Cloudy urine with leukocyte esterase positive, nitrites positive, many bacteria. Suggestive of urinary tract infection."
       },
       "request": {

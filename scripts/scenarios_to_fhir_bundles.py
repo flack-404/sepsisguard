@@ -16,8 +16,15 @@ import base64
 import json
 import sys
 import uuid
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
+
+# Time fields to rebase when shifting scenario timestamps to "near now".
+_TIME_FIELDS = (
+    "effectiveDateTime", "effectiveInstant", "issued", "date",
+    "authoredOn", "sent", "onsetDateTime", "recordedDate",
+)
 
 _REPO_ROOT = Path(__file__).parent.parent
 _SCENARIOS_DIR = _REPO_ROOT / "data" / "examples"
@@ -34,6 +41,51 @@ _SCENARIO_FILES = {
 def _load_scenario(scenario_id: str) -> dict[str, Any]:
     path = _SCENARIOS_DIR / _SCENARIO_FILES[scenario_id]
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _rebase_scenario_times(scenario: dict[str, Any]) -> None:
+    """Shift every timestamp so anchor_time = now - 90 minutes.
+
+    This is critical for platform uploads: without it, the FHIR resources
+    are stamped at the scenario's original anchor (2026-05-10) but the
+    agent runs against wall-clock "now", so all bundle deadlines have
+    already passed and every element scores NON-COMPLIANT.
+    """
+    anchor_str = scenario.get("anchor_time")
+    if not anchor_str:
+        return
+    try:
+        anchor = datetime.fromisoformat(anchor_str.replace("Z", "+00:00"))
+    except ValueError:
+        return
+
+    target_anchor = datetime.now(tz=timezone.utc) - timedelta(minutes=90)
+    offset = target_anchor - anchor
+
+    def _shift(ts: str) -> str:
+        try:
+            dt = datetime.fromisoformat(ts.replace("Z", "+00:00"))
+        except (ValueError, AttributeError):
+            return ts
+        return (dt + offset).isoformat()
+
+    def _walk(obj: Any) -> None:
+        if isinstance(obj, dict):
+            for k, v in list(obj.items()):
+                if k in _TIME_FIELDS and isinstance(v, str):
+                    obj[k] = _shift(v)
+                elif k == "period" and isinstance(v, dict):
+                    for pk in ("start", "end"):
+                        if isinstance(v.get(pk), str):
+                            v[pk] = _shift(v[pk])
+                else:
+                    _walk(v)
+        elif isinstance(obj, list):
+            for item in obj:
+                _walk(item)
+
+    _walk(scenario.get("patient_synthetic_record", {}))
+    scenario["anchor_time"] = target_anchor.isoformat()
 
 
 def _attach_clinical_notes(scenario: dict[str, Any]) -> None:
@@ -135,10 +187,12 @@ def main() -> int:
             return 2
         scenario = _load_scenario(sid)
         _attach_clinical_notes(scenario)
+        _rebase_scenario_times(scenario)
         bundle = build_bundle(scenario)
         out_path = out_dir / f"{sid}.bundle.json"
         out_path.write_text(json.dumps(bundle, indent=2), encoding="utf-8")
-        print(f"✅ {sid}: {len(bundle['entry'])} entries → {out_path}")
+        anchor = scenario.get("anchor_time", "?")[:19]
+        print(f"✅ {sid}: {len(bundle['entry'])} entries → {out_path} (anchor: {anchor}Z)")
 
     return 0
 

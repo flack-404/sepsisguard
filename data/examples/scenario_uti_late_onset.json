@@ -13,6 +13,11 @@
     "Patient": {
       "resourceType": "Patient",
       "id": "uti-002",
+      "name": [{
+        "use": "official",
+        "family": "Thompson",
+        "given": ["Harold"]
+      }],
       "gender": "male",
       "birthDate": "1948-09-22"
     },
@@ -120,7 +125,7 @@
       {
         "resourceType": "Condition", "id": "cond-foley",
         "clinicalStatus": {"coding": [{"code": "active"}]},
-        "code": {"text": "Foley catheter — post-operative", "coding": []},
+        "code": {"text": "Foley catheter — post-operative"},
         "subject": {"reference": "Patient/uti-002"},
         "onsetDateTime": "2026-05-06T09:00:00Z"
       }
